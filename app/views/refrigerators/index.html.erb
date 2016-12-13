@@ -55,7 +55,15 @@
                 <%= link_to "多め", switching_refrigerator_path(refrigerator) %>
               <% end %>
             </td>
-            <td><%= refrigerator.deadline %></td>
+            <td>
+              <% if (refrigerator.deadline - Date.today) < 0 %>
+                <div class="deadline">
+                  <%= refrigerator.deadline %>
+                </div>
+              <% else %>
+                <%= refrigerator.deadline %>
+              <% end %>
+            </td>
             <td>
               <% if refrigerator.release == 0 %>
                 <%= link_to '非公開', switching_refrigerator_path(refrigerator, rele: 1) %>
@@ -106,7 +114,15 @@
                 <%= link_to "多め", switching_refrigerator_path(refrigerator) %>
               <% end %>
             </td>
-            <td><%= (Date.today - refrigerator.purchase).to_i %>日経過</td>
+            <td>
+              <% if (Date.today - refrigerator.purchase).to_i >= 7 %>
+                <div class="deadline">
+                  <%= (Date.today - refrigerator.purchase).to_i %>日経過
+                </div>
+              <% else %>
+                <%= (Date.today - refrigerator.purchase).to_i %>日経過
+              <% end %>
+            </td>
             <td><% if refrigerator.release == 0 %><%= link_to '非公開', switching_refrigerator_path(refrigerator, rele: 1) %>
                 <% else %><%= link_to '公開', switching_refrigerator_path(refrigerator, rele: 1) %><% end %></td>
             <td><%= link_to '編集', edit_refrigerator_path(refrigerator) %></td>

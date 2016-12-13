@@ -23,6 +23,9 @@ div.donut_headline{
 }
 label.text_field{
 }
+div.deadline{
+  color: #FF0000
+}
 
 /* レシピ */
 div.right {
@@ -272,7 +275,12 @@ aside li.menuList a:hover{
   
 }
 
-/* 掲示板
+
+p#article{
+   font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
+}
+
+/* 掲示板 
 h1 {
   text-align: center;
 }
@@ -287,12 +295,6 @@ div#tab1 {
      border: 6px solid #FFFFFF; 
      background-color: #ffbf00;
 }*/
-
-/*本文*/
-p#article{
-   font-family: "ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
-}
-
 
 /*掲示板　リプライ用　モーダルウィンドウ*/
 #modal_content{
