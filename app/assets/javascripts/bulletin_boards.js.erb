@@ -2,12 +2,14 @@ var tabwin1;
 
 function set(){
     var originTab1 = $("#tab1").clone(true)
+    //console.log(hooge)
     tabwin1 = document.getElementById("tab1")
 
     $(function() {
 
         /*リプライを見るボタンの処理*/
         $(".reply").click(function() {
+            console.log("ripu")
             $(this).children(".rep").next().slideToggle();
         })
 
@@ -15,25 +17,18 @@ function set(){
         $(".heart").click(function() {
             var changeFav
             if($(this).children().eq(1).text() == 1){
-                changeFav = ajaxDelete($(this).children().eq(4).text(), $(this).children().eq(2).text(), $(this).children().eq(3).text())
-                changeFav.done(function(response){ console.log("delete_flag true done"); });
-                changeFav.fail(function(response){ console.log("delete_flag true error"); });
-                changeFav.always(function(response){ 
-                    console.log("delete_flag true complete"); 
-                });
-                $(this).children().eq(0).text("[♡]")
+                changeFav = ajaxDelete($(this).children().eq(2).text())
+                changeFav.done(function(response){ console.log("delete done"); });
+                changeFav.fail(function(response){ console.log("delete error"); });
+                changeFav.always(function(response){ console.log("delete complete"); });
+                $(this).children().eq(0).text("[☆]")
                 $(this).children().eq(1).text("0")
             } else if($(this).children().eq(1).text() == 0){
-                url = $(this).children().eq(4)
-                changeFav = ajaxPost(url.text(), $(this).children().eq(2).text(), $(this).children().eq(3).text())
-                changeFav.done(function(response){ console.log("delete_flag false done"); });
-                changeFav.fail(function(response){ console.log("delete_flag false error"); });
-                changeFav.always(function(response){ 
-                    parsedObj = JSON.parse(response)
-                    url.text("/lists/" + parsedObj.id)
-                    console.log("delete_flag false complete");
-                 });
-                $(this).children().eq(0).text("[♥︎]")
+                changeFav = ajaxPost($(this).children().eq(2).text())
+                changeFav.done(function(response){ console.log("post done"); });
+                changeFav.fail(function(response){ console.log("post error"); });
+                changeFav.always(function(response){ console.log("post complete"); });
+                $(this).children().eq(0).text("[　]")
                 $(this).children().eq(1).text("1")
             }
         })
@@ -41,19 +36,21 @@ function set(){
         /*矢印(リプライ)ボタンの処理*/
         $(".arrow").click(function() {
             id = $(this).children()[1].innerText
-            console.log($(this)[0].childNodes[1].name)
             //キーボード操作などにより、オーバーレイが多重起動するのを防止する
             $(this).blur() ;    //ボタンからフォーカスを外す
             if($("#modal_overlay")[1]) return false ;       //新しくモーダルウィンドウを起動しない 
 
+            //オーバーレイ用のHTMLコードを、[body]内の最後に生成する
             $("#contents").append('<div id="modal_overlay" id="genuine"></div>');
+            //[$modal-overlay]をフェードインさせる
+            // $("#modal_overlay").css("display", "block")
+            // $("#modal_content").css("display", "block")
             $("#modal_overlay").fadeIn("slow");
-            var modal = "#" + $(this)[0].childNodes[1].name
+            $("#modal_content").fadeIn("slow");
             centeringModalSyncer()
-            $(modal).fadeIn("slow");
         })
-        $("#modal_overlay,#modal_close").off().click(function(){
-            $(".modal_content,#modal_overlay").fadeOut("slow",function(){
+        $("#modal_overlay,#modal_close").click(function(){
+            $("#modal_content,#modal_overlay").fadeOut("slow",function(){
                 $("#genuine").remove()
             })
         })
@@ -122,6 +119,8 @@ function set(){
             } 
         });
 
+
+
     });
 
 }
@@ -148,10 +147,10 @@ function centeringModalSyncer(){
     var h = $(window).height();
 
     //コンテンツ(#modal-content)の幅を取得し、変数[cw]に格納
-    var cw = $(".modal-content").outerWidth({margin:true});
+    var cw = $("#modal-content").outerWidth({margin:true});
 
     //コンテンツ(#modal-content)の高さを取得し、変数[ch]に格納
-    var ch = $(".modal-content").outerHeight({margin:true});
+    var ch = $("#modal-content").outerHeight({margin:true});
 
     //コンテンツ(#modal-content)を真ん中に配置するのに、左端から何ピクセル離せばいいか？を計算して、変数[pxleft]に格納
     var pxleft = ((w - cw)/2);
@@ -160,53 +159,33 @@ function centeringModalSyncer(){
     var pxtop = ((h - ch)/2);
 
     //[#modal-content]のCSSに[left]の値(pxleft)を設定
-    $(".modal-content").css({"left": pxleft + "px"});
+    $("#modal-content").css({"left": pxleft + "px"});
 
     //[#modal-content]のCSSに[top]の値(pxtop)を設定
-    $(".modal-content").css({"top": pxtop + "px"});
+    $("#modal-content").css({"top": pxtop + "px"});
 
 }
 
-function ajaxDelete(reqUrl, fridge_id, current_user_id) {
-    
-    reqUrl = reqUrl.replace(".", "/")
+function ajaxDelete(reqUrl) {
     console.log(reqUrl)
-    console.log(fridge_id)
-    console.log(current_user_id)
     return $.ajax({
         type:'POST',
         data: {              
-            "_method": "PATCH",
-            "authenticity_token": $("#authenticity_token").val(),
-            "refrigerator_id": fridge_id,
-            "user_id": current_user_id, 
-            "delete_flag": true
+            "_method": "delete",
+            "authenticity_token": $("#authenticity_token").val()
         },
         url:reqUrl,
         dataType: 'html'
     });
 }
 
-function ajaxPost(reqUrl, fridge_id, current_user_id) {
-    var method = ""
-    if(reqUrl.match(/\d+/)){
-        reqUrl = reqUrl.replace(".", "/")
-        method = "PATCH"
-    } else {
-        reqUrl += ".json"
-        method = "POST"
-    }
+function ajaxPost(reqUrl) {
     console.log(reqUrl)
-    console.log(fridge_id)
-    console.log(current_user_id)
     return $.ajax({
-        type:'POST',//既にlistのデータがある場合はpatchにしないと行けない
+        type:'POST',
         data: {   
-            "_method": method,
-            "authenticity_token": $("#authenticity_token").val(),
-            "refrigerator_id": fridge_id,
-            "user_id": current_user_id, 
-            "delete_flag": false
+            "_method": "post",
+            "authenticity_token": $("#authenticity_token").val()
         },
         url:reqUrl,
         dataType: 'html'

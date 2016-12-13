@@ -17,11 +17,13 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @myrefri = Refrigerator.where(user_id: current_user.id).where(event_id: nil)
+    @organizer = current_user.username
   end
 
   # GET /events/1/edit
   def edit
     @myrefri = Refrigerator.where(user_id: current_user.id).where(event_id: [nil, @event.id])
+    @organizer = current_user.username
   end
 
   # POST /events
@@ -50,6 +52,14 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
+        #元の関連を削除した上で更新
+        Refrigerator.where(user_id: current_user.id, event_id: @event.id).each do |re|
+          re.update_attributes(event_id: nil)
+        end
+        params[:refri][:id].each do |refrigerator_id|
+          @refrigerator = Refrigerator.find(refrigerator_id)
+          @refrigerator.update_attributes(event_id: @event.id)
+        end
         format.html { redirect_to @event, notice: 'イベントを更新しました。' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -87,6 +97,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:refrigerator_id, :place, :date, :upper_num, :lower_num)
+      params.require(:event).permit(:refrigerator_id, :place, :user_name, :date, :upper_num, :lower_num)
     end
 end
