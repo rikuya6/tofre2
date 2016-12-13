@@ -1,7 +1,6 @@
-<div class="font-default">
-<p id="notice"><%= notice %></p>
-
-<h1>編集・投稿</h1>
+<div class="headline">
+  <h1>編集・投稿</h1>
+</div>
 
 <%= render 'shared/donuts_header' %>
 
@@ -12,14 +11,20 @@
 <table>
   <% @donuts.each do |donut| %>
     <tr>
-      <td><%= donut_image_tag donut , width: 100 %></td>
-      <td style="width: 300px; word-break: break-all; vertical-align: top; border-bottom-style: dashed; border-color: orange;"><h2><%= link_to "#{donut.title}", donut %></h2><%= donut.material %></td>
-      <td><%= link_to '編集', edit_donut_path(donut) %></td>
-      <td><%= link_to '削除', donut_path(donut), method: :delete %></td>
+      <td class="width_resize"><%= donut_image_tag donut , width: 100 %></td>
+      <td style="width: 300px; word-break: break-all; vertical-align: top; border-bottom-style: solid; border-color: #FFD039;" class="width_resize">
+        <div class="donut_headline">
+          <h2><%= link_to "#{donut.title}", donut %></h2>
+        </div>
+        <%= donut.material %>
+      </td>
+      <td style="width: 50px; word-break: break-all; border-bottom-style: solid; border-color: #FFD039;" class="width_resize">
+        <%= link_to '[編集]', edit_donut_path(donut) %>
+      </td>
+      <td style="width: 50px; word-break: break-all; border-bottom-style: solid; border-color: #FFD039;" class="width_resize">
+        <%= link_to '[削除]', donut_path(donut), method: :delete, data: { confirm: '削除しますか？' } %>
+      </td>
     </tr>
     </tr>
   <% end %>
 </table>
-
-<br>
-</div>

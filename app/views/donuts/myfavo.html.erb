@@ -1,16 +1,19 @@
-<div class="font-default">
+<div>
 <p id="notice"><%= notice %></p>
 
-<h1>お気に入り</h1>
+<div class="headline"><h1>お気に入り</h1></div>
 
 <%= render 'shared/donuts_header' %>
 
-<table>
+<table class="donutslist">
   <% @fabs.each do |fab| %>
     <tr>
-      <td><%= donut_image_tag fab.donut , width: 100 %></td>
-      <td style="width: 300px; word-break: break-all; vertical-align: top; border-bottom-style: dashed; border-color: orange;"><h2><%= link_to "#{fab.donut.title}", fab.donut %></h2><%= fab.donut.material %></td>
-      <td><h3><%= link_to '[はずす]', unfab_donut_path(fab.donut) %></h3></td>
+      <td class="width_resize"><%= donut_image_tag fab.donut , width: 100 %></td>
+      <td style="width: 300px; word-break: break-all; vertical-align: top; border-bottom-style: solid; border-color: orange;" class="width_resize">
+      	<div class="donut_headline"><h2><%= link_to "#{fab.donut.title}", fab.donut %></h2></div>
+      	<%= fab.donut.material %>
+      </td>
+      <td style="width:150px;" class="width_resize"><h3><%= link_to '[はずす]', unfab_donut_path(fab.donut) %></h3></td>
     </tr>
   <% end %>
 </table>
