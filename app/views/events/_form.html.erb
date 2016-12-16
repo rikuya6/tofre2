@@ -1,39 +1,49 @@
 <%= form_for(@event) do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
-
-      <ul>
-      <% @event.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+      <h2>イベントの保存に失敗しました。<br>入力を確認してください。</h2>
     </div>
   <% end %>
 
-  <div class="field">
+  <h5>食品は最低1つ以上を選択してください。<br>イベントには食材を持ち込みましょう！</h5>
+  <div class="field form_area">
     <% @myrefri.each do |refrigerator| %>
       <%= check_box_tag 'refri[id][]', refrigerator.id, refrigerator.event %>
       <%= refrigerator.name %><br>
     <% end %>
   </div>
-  <div class="field">
-    <%= f.label :place %><br>
-    <%= f.text_area :place %>
+  <!--<%= @myrefri %>-->
+  <div class="field form_area">
+    <%= f.label :place, "場所", :class => "text_field" %><br>
+    <%= f.text_field :place %>
   </div>
-  <div class="field">
-    <%= f.label :date %><br>
-    <%= f.datetime_select :date %>
+  
+  <div class="field form_area">
+    <%= f.label :user_name, "主催者", :class => "text_field" %><br>
+    <%= f.text_field :user_name, value: @organizer, :readonly => true %>
   </div>
-  <div class="field">
-    <%= f.label :upper_num %><br>
+  
+  <div class="field form_area">
+      <%= f.label :date , "日時" %><br>
+      <%= raw sprintf(
+              f.date_select(
+                  :date,
+                  use_month_numbers: true,
+                  start_year:        (Time.now.year),
+                  end_year:          (Time.now.year + 20),
+                  default:           Date.new(Time.now.year, 1, 1),
+                  date_separator:    '%s'), '年 ', '月 ') + '日' %>
+  </div>
+  <h5>最大人数を超える人数は最少人数には指定出来ません！</h5>
+  <div class="field form_area">
+    <%= f.label :upper_num, "最大人数" %><br>
     <%= f.number_field :upper_num %>
   </div>
-  <div class="field">
-    <%= f.label :lower_num %><br>
+  <div class="field form_area">
+    <%= f.label :lower_num, "最低人数" %><br>
     <%= f.number_field :lower_num %>
   </div>
-  <div class="actions">
+  <div class="actions form_area">
     <% if current_page?(new_event_path) %>
       <%= f.submit "新規作成"%>
     <% else %>

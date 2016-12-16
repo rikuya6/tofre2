@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+# errors
+gem 'rails-i18n'
 
 # Devise
 gem 'devise'

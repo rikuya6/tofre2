@@ -1,9 +1,10 @@
 <% if user_signed_in? %>
 
 <div class="font-default">
-<h1>こんにちは、<%= current_user.username %>さん</h1>
-
-<h3><p>とうふれのユーザー用ページです。</p></h3>
+<div class="headline">
+  <h1>こんにちは、<%= current_user.username %>さん</h1>
+  <h3><p>とうふれのユーザー用ページです。</p></h3>
+</div>
 
 <script src="tabs.js"></script>
 <ul class="tab_user">
@@ -102,7 +103,8 @@
     </tbody>
     </table>
   </li>
-  <li class="hide"></li>
+  <li class="hide">
+  </li>
 </ul>
 </div>
 

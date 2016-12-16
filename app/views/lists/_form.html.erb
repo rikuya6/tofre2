@@ -1,13 +1,7 @@
 <%= form_for(@list) do |f| %>
   <% if @list.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@list.errors.count, "error") %> prohibited this list from being saved:</h2>
-
-      <ul>
-      <% @list.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+      <h2>保存に失敗しました。管理者に問い合わせてください。</h2>
     </div>
   <% end %>
 

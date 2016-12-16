@@ -1,0 +1,106 @@
+Searching 6327 files for "refrigerator_deadline"
+
+/Users/SAITOminaru/rails/作業用/tofre/app/assets/stylesheets/application.css:
+  479    padding: 10px;
+  480  }
+  481: table.refrigerator_deadline {
+  482    @include data-table;
+  483    width: 90%;
+  ...
+  486    font-size: 18px;
+  487  }
+  488: table.refrigerator_deadline th {
+  489    text-align: center;
+  490    margin: 5px 10px;
+  ...
+  493    border: 1px #FFFFFF solid;
+  494  }
+  495: table.refrigerator_deadline tr {
+  496    background-color: #FFF9DE;
+  497    padding: 30px 0px;
+  498    border: 1px #FFFFFF solid;
+  499  }
+  500: table.refrigerator_deadline td {
+  501    background-color: #FFF9DE;
+  502    padding: 30px 0px;
+  503    border: 1px #FFFFFF solid;
+  504  }
+  505: table.refrigerator_deadline a {
+  506    /*セル内全体リンク化*/
+  507    display: block;
+  ...
+  510    text-decoration: none;
+  511  }
+  512: table.refrigerator_deadline a:hover{
+  513  　text-decoration: underline;
+  514  }
+
+/Users/SAITOminaru/rails/作業用/tofre/app/assets/stylesheets/table.css.scss:
+   67  
+   68  /*冷蔵庫一覧用*/
+   69: table.refrigerator_deadline {
+   70    @include data-table;
+   71    border-collapse: collapse;
+
+/Users/SAITOminaru/rails/作業用/tofre/app/views/refrigerators/index.html.erb:
+   27      <li>
+   28        <%= form_tag(delete_refrigerators_path, method: "get") do %>
+   29:       <table border="1" cellpadding="10" class="refrigerator_deadline">
+   30          <thead>
+   31          <tr>
+
+8 matches across 3 files
+
+
+Searching 6334 files for "refrigerator_deadline"
+
+/Users/SAITOminaru/rails/tofre/app/assets/stylesheets/application.css:
+  477    padding: 10px;
+  478  }
+  479: table.refrigerator_deadline {
+  480    @include data-table;
+  481    width: 90%;
+  ...
+  484    font-size: 18px;
+  485  }
+  486: table.refrigerator_deadline th {
+  487    text-align: center;
+  488    margin: 5px 10px;
+  ...
+  491    border: 1px #FFFFFF solid;
+  492  }
+  493: table.refrigerator_deadline tr {
+  494    background-color: #FFF9DE;
+  495    padding: 30px 0px;
+  496    border: 1px #FFFFFF solid;
+  497  }
+  498: table.refrigerator_deadline td {
+  499    background-color: #FFF9DE;
+  500    padding: 30px 0px;
+  501    border: 1px #FFFFFF solid;
+  502  }
+  503: table.refrigerator_deadline a {
+  504    /*セル内全体リンク化*/
+  505    display: block;
+  ...
+  508    text-decoration: none;
+  509  }
+  510: table.refrigerator_deadline a:hover{
+  511  　text-decoration: underline;
+  512  }
+
+/Users/SAITOminaru/rails/tofre/app/assets/stylesheets/table.css.scss:
+   67  
+   68  /*冷蔵庫一覧用*/
+   69: table.refrigerator_deadline {
+   70    @include data-table;
+   71    border-collapse: collapse;
+
+/Users/SAITOminaru/rails/tofre/app/views/refrigerators/index.html.erb:
+   27      <li>
+   28        <%= form_tag(delete_refrigerators_path, method: "get") do %>
+   29:       <table border="1" cellpadding="10" class="refrigerator_deadline">
+   30          <thead>
+   31          <tr>
+
+8 matches across 3 files

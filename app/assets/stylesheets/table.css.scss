@@ -66,7 +66,7 @@ table.show {
 }
 
 /*冷蔵庫一覧用*/
-table.idx1 {
+table.refrigerator_deadline {
   @include data-table;
   border-collapse: collapse;
   border: 12px solid #85AFFD;
@@ -90,7 +90,7 @@ table.idx1 {
 }
 
 
-table.idx2 {
+table.refrigerator_no_deadline {
   @include data-table;
   border-collapse: collapse;
   border: 12px solid #C5FFFD;

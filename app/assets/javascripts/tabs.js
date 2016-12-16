@@ -48,3 +48,20 @@ $(function() {
 		$(this).addClass('select')
 	});
 });
+
+$(function() {
+	//クリックしたときのファンクションをまとめて指定
+	$('.tab3 li').click(function() {
+		//.index()を使いクリックされたタブが何番目かを調べ、
+		//indexに代入する
+		var index = $('.tab3 li').index(this);
+		//コンテンツを一度すべて非表示にし、
+		$('.content li').css('display','none');
+		//クリックされたタブと同じ順番のコンテンツを表示
+		$('.content li').eq(index).css('display','block');
+		//一度タブについているクラスselectを消し、
+		$('.tab3 li').removeClass('select');
+		//クリックされたタブのみにクラスselectを付与
+		$(this).addClass('select')
+	});
+});

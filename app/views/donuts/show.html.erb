@@ -1,24 +1,24 @@
-<div class="font-default">
-<p id="notice"><%= notice %></p>
-
-<%= render 'shared/donuts_header' %>
-
-<table>
-	<tr>
-	  <td colspan="2"><h1><strong><%= @donut.title %></strong></h1></td>
-	</tr>
-	<tr>
-		<td rowspan="2"><%= donut_image_tag @donut , width: 250 %></td>
-		<td><h3>○材料○</h3></td>
-	</tr>
-	<tr>
-		<td><%= simple_format(@donut.material) %></td>
-	</tr>
-</table>
-<% if Fab.find_by(donut_id: @donut.id, user_id: current_user.id) %>
-	<h4><%= link_to 'お気に入りからはずす', unfab_donut_path(@donut) %></h4>
-<% else %>
-	<h4><%= link_to 'お気に入りに追加', fab_donut_path(@donut) %></h4>
-<% end %>
-
+<div>
+	<%= render 'shared/donuts_header' %>
+</div>
+<div>
+	<div class="donut_detail">
+		<h1><strong><%= @donut.title %></strong></h1>
+	</div>
+	<div class="donut_detail">
+		<%= donut_image_tag @donut , width: 250 %>
+	</div>
+	<div class="donut_detail">
+		<h3>材料</h3>
+	</div>
+	<div class="donut_detail">
+		<%= simple_format(@donut.material) %>
+	</div>
+	<div class="fab_emphasize">
+	<% if Fab.find_by(donut_id: @donut.id, user_id: current_user.id) %>
+		<h3><strong><%= link_to 'お気に入りからはずす', unfab_donut_path(@donut) %></strong></h3>
+	<% else %>
+		<h3><strong><%= link_to 'お気に入りに追加', fab_donut_path(@donut) %></strong></h3>
+	<% end %>
+	</div>
 </div>

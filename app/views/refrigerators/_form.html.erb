@@ -1,52 +1,52 @@
+<div class="form_setting">
 <%= form_for(@refrigerator) do |f| %>
   <% if @refrigerator.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@refrigerator.errors.count, "error") %> 保存に失敗しました。:</h2>
-
-      <ul>
-      <% @refrigerator.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+      <h2>保存に失敗しました。<br>入力を確認してください。</h2>
     </div>
   <% end %>
 
+  <div>
+    <div class="field form_area">
+      <%= f.label :name, "材料名" %><br>
+      <%= f.text_area :name, :size => "25x2" %>
+    </div>
 
-  <div class="field">
-    <%= f.hidden_field(:user_id, :value => current_user.id) %>
-  </div>
+    <div class="field">
+      <%= f.hidden_field(:user_id, :value => current_user.id) %>
+    </div>
 
-  <div class="field">
-    <%= f.label :name, "材料名" %><br>
-    <%= f.text_area :name, :size => "25x2" %>
-  </div>
-  <div class="field">
-    <%= f.label :quantity, "個数" %><br>
-    <%= f.number_field :quantity, :size => "5x1" %>
-  </div>
-  <div class="field">
-    <%= f.label :deadline, "期限の有無" %><br>
-    <% if @linenil %>
-      <%= check_box_tag "line", true, true %>消費期限なし</p>
-    <% else %>
-      <%= check_box_tag "line" %>消費期限なし</p>
-    <% end %>
-    <%= raw sprintf(
-              f.date_select(
-                  :deadline,
-                  use_month_numbers: true,
-                  start_year:        (Time.now.year),
-                  end_year:          (Time.now.year + 20),
-                  default:           Date.new(Time.now.year, 1, 1),
-                  date_separator:    '%s'), '年 ', '月 ') + '日' %>
-  </div>
-  <br>
+    <div class="field form_area">
+      <%= f.label :quantity, "残量" %><br>
+      <label><%= f.radio_button :quantity, "1" %>少ない</label>
+      <label><%= f.radio_button :quantity, "2" %>普通</label>
+      <label><%= f.radio_button :quantity, "3" %>多い</label>
+    </div>
 
-  <div class="actions">
-    <% if current_page?(new_refrigerator_path) %>
-      <%= f.submit "追加"%>
-    <% else %>
-      <%= f.submit "冷蔵庫の更新"%>
-    <% end %>
+    <div class="field form_area">
+      <%= f.label :deadline, "期限の有無" %><br>
+      <% if @linenil %>
+        <%= check_box_tag "line", true, true %>消費期限なし</p>
+      <% else %>
+        <%= check_box_tag "line" %>消費期限なし</p>
+      <% end %>
+      <%= raw sprintf(
+            f.date_select(
+              :deadline,
+              use_month_numbers: true,
+              start_year:        (Time.now.year),
+              end_year:          (Time.now.year + 20),
+              default:           Date.new(Time.now.year, 1, 1),
+              date_separator:    '%s'), '年 ', '月 ') + '日' %>
+    </div>
+
+    <div class="actions form_area">
+      <% if current_page?(new_refrigerator_path) %>
+        <%= f.submit "追加"%>
+      <% else %>
+        <%= f.submit "冷蔵庫の更新"%>
+      <% end %>
+    </div>
   </div>
 <% end %>
+</div>

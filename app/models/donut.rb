@@ -5,8 +5,8 @@ class Donut < ActiveRecord::Base
   attr_reader :image
 
   validate :check_image
-
-
+  validates :title, presence: true
+  validates :material, presence: true
 
   IMAGE_TYPES =
     { "image/jpeg" => "jpg", "image/gif" => "gif", "image/png" => "png" }

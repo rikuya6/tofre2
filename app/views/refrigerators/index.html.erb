@@ -1,16 +1,12 @@
 <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-  <meta charset="UTF-8">
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= csrf_meta_tags %>
+<meta charset="UTF-8">
 
-<div class="font-default">
 <div id="wrapper">
-<p id="notice"><%= notice %></p>
 
-<img src="momen.jpg" width="3%"><font size="+5"><%= current_user.username %>さんの冷蔵庫</font><img src="kinu.jpg" width="5%"><br>
-
-<div class="right">
-  <%= link_to '中身削除', refrigerators_path(dele: 1) %>
+<div class="headline">
+  <h1><%= current_user.username %>さんの冷蔵庫</h1>
 </div>
 
 <script src="tabs.js"></script>
@@ -22,11 +18,15 @@
     </nav>
   </section>
 </ul>
+<div class="right">
+  <%= link_to '中身追加', new_refrigerator_path%>
+  <%= link_to '中身削除', refrigerators_path(dele: 1) %>
+</div>
 
 <ul class="content">
     <li>
       <%= form_tag(delete_refrigerators_path, method: "get") do %>
-      <table border="1" cellpadding="10" class="idx1">
+      <table border="1" cellpadding="10" class="refrigerator_deadline">
         <thead>
         <tr>
           <th width="108">食品名</th>
@@ -40,11 +40,35 @@
           <% @refrigerators1.each do |refrigerator| %>
           <tr>
             <td><% if params[:dele] %><%= check_box_tag 'candidate[id][]', refrigerator.id %><% end %>
-                <%= refrigerator.name %></td>
-            <td><%= link_to refrigerator.quantity, switching_refrigerator_path(refrigerator) %></td>
-            <td><%= refrigerator.deadline %></td>
-            <td><% if refrigerator.release == 0 %><%= link_to '非公開', switching_refrigerator_path(refrigerator, rele: 1) %>
-                <% else %><%= link_to '公開', switching_refrigerator_path(refrigerator, rele: 1) %><% end %></td>
+                <%= refrigerator.name %>
+            </td>
+            <td>
+              <% if refrigerator.quantity == 0 %>
+                <%= link_to "無し" %>
+              <% elsif refrigerator.quantity == 1 %>
+                <%= link_to "少ない", switching_refrigerator_path(refrigerator) %>
+              <% elsif refrigerator.quantity == 2 %>
+                <%= link_to "普通", switching_refrigerator_path(refrigerator) %>
+              <% elsif refrigerator.quantity == 3 %>
+                <%= link_to "多め", switching_refrigerator_path(refrigerator) %>
+              <% end %>
+            </td>
+            <td>
+              <% if ((refrigerator.deadline - Date.today)-3) < 0 %>
+                <div class="deadline">
+                  <%= refrigerator.deadline %>
+                </div>
+              <% else %>
+                <%= refrigerator.deadline %>
+              <% end %>
+            </td>
+            <td>
+              <% if refrigerator.release == 0 %>
+                <%= link_to '非公開', switching_refrigerator_path(refrigerator, rele: 1) %>
+              <% else %>
+                <%= link_to '公開', switching_refrigerator_path(refrigerator, rele: 1) %>
+              <% end %>
+            </td>
             <td><%= link_to '編集', edit_refrigerator_path(refrigerator) %></td>
           </tr>
           <% end %>
@@ -58,23 +82,45 @@
       <% end %>
     </li>
     <li class="hide">
-      <table border="1" cellpadding="10" class="idx2">
+      <table border="1" cellpadding="10" class="refrigerator_no_deadline">
         <thead>
         <tr>
-          <th>食品名</th>
-          <th>残量</th>
-          <th width="118" height"50">期限</th>
-          <th>状況</th>
-          <th>操作</th>
+          <th width="108">食品名</th>
+          <th width="60">残量</th>
+          <th width="126" height"50">期限</th>
+          <th width="60">状況</th>
+          <th width="60">操作</th>
         </tr>
         </thead>
         <tbody>
           <% @refrigerators2.each do |refrigerator| %>
           <tr>
-            <td><% if params[:dele] %><%= check_box_tag 'candidate[id][]', refrigerator.id %><% end %>
-                <%= refrigerator.name %></td>
-            <td><%= link_to refrigerator.quantity, switching_refrigerator_path(refrigerator) %></td>
-            <td><%= (Date.today - refrigerator.purchase).to_i %>日経過</td>
+            <td>
+              <% if params[:dele] %>
+                <%= check_box_tag 'candidate[id][]', refrigerator.id %>
+              <% end %>
+              <%= refrigerator.name %>
+            </td>
+            <td>
+              <% if refrigerator.quantity == 0 %>
+                <%= link_to "無し" %>
+              <% elsif refrigerator.quantity == 1 %>
+                <%= link_to "少ない", switching_refrigerator_path(refrigerator) %>
+              <% elsif refrigerator.quantity == 2 %>
+                <%= link_to "普通", switching_refrigerator_path(refrigerator) %>
+              <% elsif refrigerator.quantity == 3 %>
+                <%= link_to "多め", switching_refrigerator_path(refrigerator) %>
+              <% end %>
+            </td>
+            <td>
+              <% if (Date.today - refrigerator.purchase).to_i >= 7 %>
+                <div class="deadline">
+                  <%= (Date.today - refrigerator.purchase).to_i %>日経過
+                </div>
+              <% else %>
+                <%= (Date.today - refrigerator.purchase).to_i %>日経過
+              <% end %>
+            </td>
             <td><% if refrigerator.release == 0 %><%= link_to '非公開', switching_refrigerator_path(refrigerator, rele: 1) %>
                 <% else %><%= link_to '公開', switching_refrigerator_path(refrigerator, rele: 1) %><% end %></td>
             <td><%= link_to '編集', edit_refrigerator_path(refrigerator) %></td>
@@ -83,15 +129,10 @@
         </tbody>
       </table>
       <% if params[:dele] %>
-      <p>
         <%= submit_tag "削除", :class => "delete", data: { confirm: '削除しますか？' } %>
-      </p>
       </div>
       <% end %>
       <% end %>
     </li>
 </ul>
-<div class="right">
-  <%= link_to '中身追加', new_refrigerator_path%>
-</div>
 </div>
